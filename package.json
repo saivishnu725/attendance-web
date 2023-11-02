@@ -1,0 +1,23 @@
+{
+  "name": "attendance-web",
+  "version": "0.0.1",
+  "description": "attendance maintanence",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saivishnu725/attendance-web.git"
+  },
+  "keywords": [
+    "attendance",
+    "web"
+  ],
+  "author": "theunconcernedape",
+  "license": "GPL-2.0-only",
+  "bugs": {
+    "url": "https://github.com/saivishnu725/attendance-web/issues"
+  },
+  "homepage": "https://github.com/saivishnu725/attendance-web#readme"
+}
