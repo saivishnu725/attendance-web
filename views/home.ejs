@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
   <!-- head -->
-  <%- include('head') %>
+  <%- include('common/head') %>
   <!-- body of the page -->
   <body id="page-top">
     <div id="wrapper">
       <!-- side navbar -->
-      <%- include('side-navbar') %>
+      <%- include('common/side-navbar') %>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
           <!-- top navbar -->
-          <%- include('top-navbar.ejs') %>
+          <%- include('common/top-navbar') %>
           <div class="container-fluid">
             <!-- dashboard hero -->
-            <%- include('hero.ejs') %>
+            <%- include('dashboard/hero') %>
             <div class="row">
               <!-- percentage of individual subjects/entries -->
-              <%- include('percentGraph.ejs') %>
+              <%- include('dashboard/percentGraph') %>
               <!-- checkbox list to select individual subjects/entries -->
-              <%- include('checkList.ejs') %>
+              <%- include('dashboard/checkList') %>
               <!-- attendance log -->
-              <%- include('log.ejs') %>
+              <%- include('dashboard/log') %>
             </div>
           </div>
         </div>
-        <%- include('footer') %>
+        <%- include('common/footer') %>
       </div>
       <a class="border rounded d-inline scroll-to-top" href="#page-top"
         ><i class="fas fa-angle-up"></i

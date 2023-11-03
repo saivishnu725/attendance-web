@@ -44,31 +44,31 @@
         <table class="table my-0" id="dataTable">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
+              <% data.table.columns.forEach(element => { %>
+              <th><%= element %></th>
+              <% }) %>
             </tr>
           </thead>
           <tbody>
+            <% data.table.rows.forEach(element => { %>
             <tr>
               <td>
                 <img
                   class="rounded-circle me-2"
                   width="30"
-                  alt=""
+                  alt="image"
                   height="30"
-                  src="images/avatars/avatar5.jpeg"
-                />Cedric Kelly
+                  src=" <%= element[0] %> "
+                />
+                <%= element[1] %>
               </td>
-              <td>Senior JavaScript Developer</td>
-              <td>Edinburgh</td>
-              <td>22</td>
-              <td>2012/03/29<br /></td>
-              <td>$433,060</td>
+              <td><%= element[2] %></td>
+              <td><%= element[3] %></td>
+              <td><%= element[4] %></td>
+              <td><%= element[5] %> <br /></td>
+              <td>$<%= element[6] %></td>
             </tr>
+            <% }) %>
           </tbody>
           <tfoot class="visually-hidden">
             <!-- unhide (remove the class) it only if there are more than 5 rows above -->
