@@ -1,5 +1,37 @@
 {
   "title": "Attendance || The Unconcerned Ape's creation",
   "username": "Sai Vishnu",
-  "userImage": "images/avatars/avatar1.jpeg"
+  "userImage": "images/avatars/avatar1.jpeg",
+  "table": {
+    "columns": ["Name", "Position", "Office", "Age", "Start date", "Salary"],
+    "rows": [
+      [
+        "images/avatars/avatar5.jpeg",
+        "John Doe",
+        "Manager",
+        "London",
+        "30",
+        "2018-01-01",
+        "5000"
+      ],
+      [
+        "images/avatars/avatar4.jpeg",
+        "Jane Doe",
+        "Developer",
+        "New York",
+        "25",
+        "2019-01-01",
+        "4000"
+      ],
+      [
+        "images/avatars/avatar4.jpeg",
+        "Jane Doe",
+        "Developer",
+        "New York",
+        "25",
+        "2019-01-01",
+        "4000"
+      ]
+    ]
+  }
 }
