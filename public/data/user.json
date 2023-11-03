@@ -1,0 +1,21 @@
+{
+  "users": ["johnDoe", "janeDoe"],
+  "johnDoe": {
+    "image": "images/avatars/avatar5.jpeg",
+    "name": "John Doe",
+    "designation": "Manager",
+    "location": "London",
+    "age": "30",
+    "joinDate": "2018-01-01",
+    "salary": "5000"
+  },
+  "janeDoe": {
+    "image": "images/avatars/avatar4.jpeg",
+    "name": "Jane Doe",
+    "designation": "Developer",
+    "location": "New York",
+    "age": "25",
+    "joinDate": "2019-01-01",
+    "salary": "4000"
+  }
+}

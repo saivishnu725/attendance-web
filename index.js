@@ -14,6 +14,12 @@ app.use(express.static("public"));
 
 //data
 const data = JSON.parse(fs.readFileSync("public/data/data.json", "utf8"));
+// user data
+const userData = JSON.parse(fs.readFileSync("public/data/user.json", "utf8"));
+// home page data
+const homePageData = JSON.parse(
+  fs.readFileSync("public/data/home.json", "utf8")
+);
 
 //path
 import { fileURLToPath } from "url";
@@ -26,7 +32,11 @@ app.set("view engine", "ejs");
 
 // get home page
 app.get("/", function (req, res) {
-  res.render("home", { data: data });
+  res.render("home", {
+    data: data,
+    userData: userData,
+    homePageData: homePageData,
+  });
 });
 
 app.listen(3000, function () {

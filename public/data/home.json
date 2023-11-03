@@ -1,0 +1,11 @@
+{
+  "title": {
+    "tab": "Attendance || The Unconcerned Ape's creation",
+    "hero": "Dashboard",
+    "graph": "Subject wise Percentage",
+    "checkBox": "Subjects",
+    "log": "Attendance Log"
+  },
+  "searchBox": "Search for subjects...",
+  "generateButton": "Generate Report"
+}
