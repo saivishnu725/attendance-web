@@ -1,4 +1,5 @@
 node
-express
-mysql (i chose mariadb, which is a fork of mysql)
 
+express
+
+mysql (i chose **_mariadb_**, which is a fork of mysql)
