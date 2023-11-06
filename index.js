@@ -3,6 +3,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs";
+import { query } from "./public/js/database.js";
 
 const app = express();
 
@@ -13,9 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //data
-const data = JSON.parse(fs.readFileSync("public/data/data.json", "utf8"));
+const data_OLD = JSON.parse(fs.readFileSync("public/data/data.json", "utf8"));
 // user data
-const userData = JSON.parse(fs.readFileSync("public/data/user.json", "utf8"));
+const userData_OLD = JSON.parse(
+  fs.readFileSync("public/data/user.json", "utf8")
+);
 // home page data
 const homePageData = JSON.parse(
   fs.readFileSync("public/data/home.json", "utf8")
@@ -31,10 +34,23 @@ const __dirname = dirname(__filename);
 app.set("view engine", "ejs");
 
 // get home page
-app.get("/", function (req, res) {
+app.get("/", async function (req, res) {
+  const [data, userData, classesData] = await Promise.all([
+    query("SELECT * FROM Users", []),
+    query(
+      `SELECT AttendanceRecords.*, Users.FirstName, Users.LastName, Classes.ClassName FROM AttendanceRecords
+    INNER JOIN Users ON AttendanceRecords.UserID = Users.UserID
+    INNER JOIN Classes ON AttendanceRecords.ClassID = Classes.ClassID
+    ORDER BY AttendanceRecords.CreatedAt DESC`,
+      []
+    ),
+    query("SELECT * FROM Classes", []),
+  ]);
+
   res.render("home", {
-    data: data,
-    userData: userData,
+    data: data_OLD,
+    userData: userData_OLD,
+    users: userData,
     homePageData: homePageData,
   });
 });

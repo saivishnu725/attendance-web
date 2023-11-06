@@ -1,6 +1,14 @@
 {
   "table": {
-    "columns": ["Name", "Position", "Office", "Age", "Start date", "Salary"],
+    "columns": [
+      "Name",
+      "Class",
+      "Status",
+      "Date/Time",
+      "Total Attended",
+      "Total Classes",
+      "Percentage"
+    ],
     "rows": [
       [
         "images/avatars/avatar5.jpeg",

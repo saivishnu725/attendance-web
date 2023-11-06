@@ -50,23 +50,15 @@
             </tr>
           </thead>
           <tbody>
-            <% data.table.rows.forEach(element => { %>
+            <% users.forEach(user => { %>
             <tr>
-              <td>
-                <img
-                  class="rounded-circle me-2"
-                  width="30"
-                  alt="image"
-                  height="30"
-                  src=" <%= element[0] %> "
-                />
-                <%= element[1] %>
-              </td>
-              <td><%= element[2] %></td>
-              <td><%= element[3] %></td>
-              <td><%= element[4] %></td>
-              <td><%= element[5] %> <br /></td>
-              <td>$<%= element[6] %></td>
+              <td><%- user.FirstName + " " + user.LastName %></td>
+              <td><%- user.ClassName %></td>
+              <td><%- user.Status %></td>
+              <td><%- user.Date %></td>
+              <td><%- 37 %></td>
+              <td><%- 42 %></td>
+              <td>85%</td>
             </tr>
             <% }) %>
           </tbody>
