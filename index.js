@@ -4,6 +4,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs";
 import { query } from "./public/js/database.js";
+import { config } from "dotenv";
+import session from "express-session";
+config();
 
 const app = express();
 
@@ -33,8 +36,19 @@ const __dirname = dirname(__filename);
 // use ejs
 app.set("view engine", "ejs");
 
-// get home page
-app.get("/", async function (req, res) {
+// use a session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: !process.env.DEVELOPMENT }, // Set secure to true if using HTTPS
+  })
+);
+
+//get home page              OLD
+//temp home screen
+app.get("/home", async function (req, res) {
   const [data, userData, classesData] = await Promise.all([
     query("SELECT * FROM Users", []),
     query(
@@ -53,6 +67,18 @@ app.get("/", async function (req, res) {
     users: userData,
     homePageData: homePageData,
   });
+});
+
+//get home page
+app.get("/", function (request, response) {
+  if (request.session.user) response.render("home");
+  else response.redirect("login");
+});
+
+//login page
+app.get("/login", function (request, response) {
+  if (request.session.user) response.redirect("home");
+  else response.render("login");
 });
 
 app.listen(3000, function () {
