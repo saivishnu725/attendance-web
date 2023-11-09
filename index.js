@@ -6,7 +6,7 @@ import fs from "fs";
 import { config } from "dotenv";
 import session from "express-session";
 config();
-import { query } from "./public/js/database.js";
+import { getUserID } from "./public/js/database.js";
 import { verifyUser } from "./public/js/login.js";
 import { checkIfUserExists, createUser } from "./public/js/register.js";
 
@@ -51,14 +51,6 @@ app.use(
   })
 );
 
-// get userID
-const getUserId = async (email) => {
-  const result = await query("SELECT UserID FROM Users WHERE Email = ?", [
-    email,
-  ]);
-  return result[0].UserID;
-};
-
 //get home page
 app.get("/", function (req, res) {
   console.log(req.session.userID);
@@ -76,11 +68,11 @@ app.post("/login", async function (req, res) {
   const { email, password } = req.body;
   const userExists = await verifyUser(email, password);
   if (userExists) {
-    req.session.userID = await getUserId(email); // user.UserID => Store UserID in session
+    req.session.userID = await getUserID(email); // user.UserID => Store UserID in session
     res.redirect("/");
   } else
     res.send(`
-  <p> The entered Email and Password doesn't exist or is incorrect!! Please enter valid credentials</p> <br \>
+  <p> The entered Email and Password doesn't exist or is incorrect!! Please enter valid credentials</p> <br />
   <button onclick="window.history.back()">Go Back and Try again</button>`);
 });
 
@@ -113,7 +105,7 @@ app.post("/register", async (req, res) => {
         lastName: lastName,
         password: password,
       });
-      req.session.userID = await getUserId(username);
+      req.session.userID = await getUserID(username);
       res.redirect("/");
     } else {
       alert(
@@ -124,7 +116,7 @@ app.post("/register", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.send(`
-    Error while registering. Try again later! <br \>
+    Error while registering. Try again later! <br />
   <button onclick="window.history.back()">Go Back and Try again</button>`);
   }
 });

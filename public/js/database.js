@@ -36,4 +36,12 @@ const query = (sql, params, callback) => {
   });
 };
 
-export { query };
+// get userID
+const getUserID = async (email) => {
+  const result = await query("SELECT UserID FROM Users WHERE Email = ?", [
+    email,
+  ]);
+  return result[0].UserID;
+};
+
+export { query, getUserID };
