@@ -44,4 +44,20 @@ const getUserID = async (email) => {
   return result[0].UserID;
 };
 
-export { query, getUserID };
+// get userID
+const getUserName = async (userID) => {
+  const result = await query("SELECT Username FROM Users WHERE UserID = ?", [
+    userID,
+  ]);
+  return result[0].UserID;
+};
+
+const getUserData = async (userID) => {
+  const result = await query(
+    "SELECT UserID, Username, Email, FirstName, LastName, UpdatedAt FROM Users WHERE UserID = ?",
+    userID
+  );
+  return result[0];
+};
+
+export { query, getUserID, getUserData, getUserName };
