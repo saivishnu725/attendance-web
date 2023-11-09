@@ -3,10 +3,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs";
-import { query } from "./public/js/database.js";
 import { config } from "dotenv";
 import session from "express-session";
 config();
+import { query } from "./public/js/database.js";
+import { verifyUser } from "./public/js/login.js";
 
 const app = express();
 
@@ -42,7 +43,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: !process.env.DEVELOPMENT }, // Set secure to true if using HTTPS
+    cookie: {
+      secure: !process.env.DEVELOPMENT, // Set secure to true if using HTTPS
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    }, // 30 days in milliseconds
   })
 );
 
@@ -70,15 +74,33 @@ app.get("/home", async function (req, res) {
 });
 
 //get home page
-app.get("/", function (request, response) {
-  if (request.session.user) response.render("home");
-  else response.redirect("login");
+app.get("/", function (req, res) {
+  console.log(req.session.userID);
+  if (req.session.userID) res.render("home");
+  else res.redirect("login");
 });
 
 //login page
-app.get("/login", function (request, response) {
-  if (request.session.user) response.redirect("home");
-  else response.render("login");
+app.get("/login", function (req, res) {
+  if (req.session.userID) res.redirect("/");
+  else res.render("login");
+});
+
+app.post("/login", async function (req, res) {
+  const { username, password } = req.body;
+  if (!verifyUser(username, password)) {
+    req.session.userID = "123"; // user.UserID => Store UserID in session
+    res.redirect("/");
+  } else res.send("Invalid credentials");
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.send("Error while logging out");
+    } else res.redirect("/login");
+  });
 });
 
 app.listen(3000, function () {
