@@ -6,7 +6,7 @@ import fs from "fs";
 import { config } from "dotenv";
 import session from "express-session";
 config();
-import { getUserID } from "./public/js/database.js";
+import { getUserID, getUserData } from "./public/js/database.js";
 import { verifyUser } from "./public/js/login.js";
 import { checkIfUserExists, createUser } from "./public/js/register.js";
 
@@ -17,17 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // public folder
 app.use(express.static("public"));
-
-//data
-const data_OLD = JSON.parse(fs.readFileSync("public/data/data.json", "utf8"));
-// user data
-const userData_OLD = JSON.parse(
-  fs.readFileSync("public/data/user.json", "utf8")
-);
-// home page data
-const homePageData = JSON.parse(
-  fs.readFileSync("public/data/home.json", "utf8")
-);
 
 //path
 import { fileURLToPath } from "url";
@@ -51,10 +40,20 @@ app.use(
   })
 );
 
+// get user data
+app.use(async (req, res, next) => {
+  if (req.session.userID) {
+    const userID = req.session.userID;
+    const userData = await getUserData(userID);
+    req.user = userData;
+  }
+  next();
+});
+
 //get home page
 app.get("/", function (req, res) {
   console.log(req.session.userID);
-  if (req.session.userID) res.render("home");
+  if (req.session.userID) res.render("home", { user: req.user });
   else res.redirect("login");
 });
 
