@@ -103,6 +103,12 @@ app.get("/logout", (req, res) => {
   });
 });
 
+// register page
+app.get("/register", function (req, res) {
+  if (req.session.userID) res.redirect("home");
+  else res.render("register");
+});
+
 app.listen(3000, function () {
   console.log("Example app listening on port 3000!");
 });
