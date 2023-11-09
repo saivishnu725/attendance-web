@@ -8,6 +8,7 @@ import session from "express-session";
 config();
 import { query } from "./public/js/database.js";
 import { verifyUser } from "./public/js/login.js";
+import { checkIfUserExists, createUser } from "./public/js/register.js";
 
 const app = express();
 
@@ -50,6 +51,14 @@ app.use(
   })
 );
 
+// get userID
+const getUserId = async (email) => {
+  const result = await query("SELECT UserID FROM Users WHERE Email = ?", [
+    email,
+  ]);
+  return result[0].UserID;
+};
+
 //get home page              OLD
 //temp home screen
 app.get("/home", async function (req, res) {
@@ -87,11 +96,15 @@ app.get("/login", function (req, res) {
 });
 
 app.post("/login", async function (req, res) {
-  const { username, password } = req.body;
-  if (!verifyUser(username, password)) {
-    req.session.userID = "123"; // user.UserID => Store UserID in session
+  const { email, password } = req.body;
+  const userExists = await verifyUser(email, password);
+  if (userExists) {
+    req.session.userID = await getUserId(email); // user.UserID => Store UserID in session
     res.redirect("/");
-  } else res.send("Invalid credentials");
+  } else
+    res.send(`
+  <p> The entered Email and Password doesn't exist or is incorrect!! Please enter valid credentials</p> <br \>
+  <button onclick="window.history.back()">Go Back and Try again</button>`);
 });
 
 app.get("/logout", (req, res) => {
@@ -105,8 +118,39 @@ app.get("/logout", (req, res) => {
 
 // register page
 app.get("/register", function (req, res) {
-  if (req.session.userID) res.redirect("home");
+  if (req.session.userID) res.redirect("/");
   else res.render("register");
+});
+
+// register post
+app.post("/register", async (req, res) => {
+  const { username, password, firstName, lastName, email, repeatPassword } =
+    req.body;
+  try {
+    const userExists = await checkIfUserExists(username, email);
+
+    if (!userExists) {
+      await createUser({
+        username: username,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+      });
+      req.session.userID = await getUserId(username);
+      res.redirect("/");
+    } else {
+      alert(
+        "User already exists! Try logging-in if it is your account. If not, try registering with a different username and email."
+      );
+      res.redirect("/register");
+    }
+  } catch (error) {
+    console.error(error);
+    res.send(`
+    Error while registering. Try again later! <br \>
+  <button onclick="window.history.back()">Go Back and Try again</button>`);
+  }
 });
 
 app.listen(3000, function () {
