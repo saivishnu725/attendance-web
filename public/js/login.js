@@ -1,19 +1,15 @@
 import { query } from "./database.js";
 import bcrypt from "bcrypt";
 
-const verifyUser = async (username, password, email, phone) => {
-  username = "student1";
-  password = "password1";
-  const userResults = await query("SELECT * FROM Users WHERE Username = ?", [
-    username,
+const verifyUser = async (email, password) => {
+  const userResults = await query("SELECT * FROM Users WHERE Email = ?", [
+    email,
   ]);
   const user = userResults[0];
-
-  console.log(user.PasswordHash);
-  console.log(password);
-  const match = await bcrypt.compare(password, user.PasswordHash);
-  console.log(match);
-  return false;
+  if (user) {
+    const match = await bcrypt.compare(password, user.PasswordHash);
+    return match;
+  }
 };
 
 export { verifyUser };
