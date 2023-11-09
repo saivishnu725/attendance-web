@@ -16,37 +16,37 @@
             <div class="col-lg-7">
               <div class="p-5">
                 <div class="text-center">
-                  <h4 class="text-dark mb-4">
-                    Create an Account <br />
-                    Start managing your attendance!!
-                  </h4>
+                  <h4 class="text-dark mb-4">Create an Account</h4>
                 </div>
-                <form class="user">
+                <form class="user" method="post" action="/register">
                   <!-- name -->
                   <div class="row mb-3">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <input
+                        required
                         class="form-control form-control-user"
                         type="text"
                         id="firstName"
                         placeholder="First Name"
-                        name="first_name"
+                        name="firstName"
                       />
                     </div>
                     <div class="col-sm-6">
                       <input
+                        required
                         class="form-control form-control-user"
                         type="text"
                         id="lastName"
                         placeholder="Last Name"
-                        name="last_name"
+                        name="lastName"
                       />
                     </div>
                   </div>
-                  <!-- email/username -->
-                  <div class="row mb-3">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
+                  <!-- email -->
+                  <div class="mb-3">
+                    <div class="col">
                       <input
+                        required
                         class="form-control form-control-user"
                         type="email"
                         id="email"
@@ -55,8 +55,11 @@
                         name="email"
                       />
                     </div>
+                  </div>
+                  <div class="row mb-3">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <input
+                        required
                         class="form-control form-control-user"
                         type="text"
                         id="username"
@@ -65,24 +68,14 @@
                         name="username"
                       />
                     </div>
-                  </div>
-                  <div class="row mb-3">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <input
+                        required
                         class="form-control form-control-user"
                         type="password"
                         id="password"
                         placeholder="Password"
                         name="password"
-                      />
-                    </div>
-                    <div class="col-sm-6">
-                      <input
-                        class="form-control form-control-user"
-                        type="password"
-                        id="repeatPassword"
-                        placeholder="Repeat Password"
-                        name="password_repeat"
                       />
                     </div>
                   </div>
