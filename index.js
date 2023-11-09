@@ -59,29 +59,6 @@ const getUserId = async (email) => {
   return result[0].UserID;
 };
 
-//get home page              OLD
-//temp home screen
-app.get("/home", async function (req, res) {
-  const [data, userData, classesData] = await Promise.all([
-    query("SELECT * FROM Users", []),
-    query(
-      `SELECT AttendanceRecords.*, Users.FirstName, Users.LastName, Classes.ClassName FROM AttendanceRecords
-    INNER JOIN Users ON AttendanceRecords.UserID = Users.UserID
-    INNER JOIN Classes ON AttendanceRecords.ClassID = Classes.ClassID
-    ORDER BY AttendanceRecords.CreatedAt DESC`,
-      []
-    ),
-    query("SELECT * FROM Classes", []),
-  ]);
-
-  res.render("home", {
-    data: data_OLD,
-    userData: userData_OLD,
-    users: userData,
-    homePageData: homePageData,
-  });
-});
-
 //get home page
 app.get("/", function (req, res) {
   console.log(req.session.userID);
@@ -124,8 +101,7 @@ app.get("/register", function (req, res) {
 
 // register post
 app.post("/register", async (req, res) => {
-  const { username, password, firstName, lastName, email, repeatPassword } =
-    req.body;
+  const { username, password, firstName, lastName, email } = req.body;
   try {
     const userExists = await checkIfUserExists(username, email);
 
