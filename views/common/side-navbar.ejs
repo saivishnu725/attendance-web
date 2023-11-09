@@ -10,29 +10,42 @@
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-book-dead"></i>
       </div>
-      <div class="sidebar-brand-text mx-3"><span>saivishnu</span></div>
+      <div class="sidebar-brand-text mx-3">
+        <span> <%= user.FirstName + " " + user.LastName %> </span>
+      </div>
     </a>
     <hr class="sidebar-divider my-0" />
     <ul class="navbar-nav text-light" id="accordionSidebar">
-      <!-- TODO: add "active" class to the respective li -->
       <li class="nav-item">
-        <a class="nav-link" href="/"
+        <% if (active == 'dash') { %>
+        <a class="nav-link active" href="/"
+          <% } else { %>
+          <a class="nav-link" href="/" <% } %>
           ><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/profile"
+        <% if (active == 'profile') { %>
+        <a class="nav-link active" href="/profile"
+          <% } else { %>
+          <a class="nav-link" href="/profile" <% } %>
           ><i class="fas fa-user"></i><span>Profile</span></a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/friends"
+        <% if (active == 'friends') { %>
+        <a class="nav-link active" href="/friends"
+          <% } else { %>
+          <a class="nav-link" href="/friends" <% } %>
           ><i class="far fa-address-book"></i><span>Friends</span></a
         >
       </li>
       <li class="nav-item"></li>
       <li class="nav-item">
-        <a class="nav-link" href="/timetable"
+        <% if (active == 'timetable') { %>
+        <a class="nav-link active" href="/timetable"
+          <% } else { %>
+          <a class="nav-link" href="/timetable" <% } %>
           ><i class="far fa-calendar-times"></i><span>Weekly Timetable</span></a
         >
       </li>
