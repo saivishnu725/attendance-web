@@ -1,15 +1,15 @@
-mariadb (opensource fork of mysql)
+# mariadb (opensource fork of mysql)
 
-three tables - Users, Classes, AttendanceRecords
+### three tables - Users, Classes, AttendanceRecords
 
-Users -
+## Users -
 
-<pre> UserID, Username, PasswordHash, Email, Role(student, teacher, admin), FirstName, LastName, DateOfBirth, CreatedAt, UpdatedAt </pre>
+<pre> UserID, Username, PasswordHash, Email, FirstName, LastName, CreatedAt, UpdatedAt </pre>
 
-Classes -
+## Classes -
 
-<pre> ClassID, ClassName, TeacherID, StartTime, EndTime, DaysOfWeek </pre>
+<pre> ClassID, ClassName, UserID, TotalClassesAttended, TotalClassesTaken, StartDate, Percentage(auto calculated) </pre>
 
-AttendanceRecords -
+## AttendanceRecords -
 
-<pre> AttendanceID, UserID, ClassID, Date, Status, CreatedAt, UserID, ClassID </pre>
+<pre> AttendanceID, UserID, ClassID, Date, Status, CreatedAt, SkipReason </pre>
