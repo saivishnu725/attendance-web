@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
   <!-- head -->
-  <%- include('common/head') %>
+  <%- include('common/head', {title: "Dashboard | The Attendance Management"})
+  %>
   <!-- body of the page -->
   <body id="page-top">
     <div id="wrapper">
       <!-- side navbar -->
-      <%- include('common/side-navbar') %>
+      <%- include('common/side-navbar', {active: "dash"}) %>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
           <!-- top navbar -->
@@ -20,7 +21,7 @@
               <!-- checkbox list to select individual subjects/entries -->
               <%- include('dashboard/checkList') %>
               <!-- attendance log -->
-              <%- include('dashboard/log') %>
+              <%- //include('dashboard/log') %>
             </div>
           </div>
         </div>

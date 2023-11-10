@@ -60,4 +60,12 @@ const getUserData = async (userID) => {
   return result[0];
 };
 
-export { query, getUserID, getUserData, getUserName };
+const getClassNames = async (userID) => {
+  const result = await query(
+    "SELECT ClassName FROM Classes WHERE UserID = ?",
+    userID
+  );
+  return result;
+};
+
+export { query, getUserID, getUserData, getUserName, getClassNames };

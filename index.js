@@ -2,11 +2,10 @@
 
 import express from "express";
 import bodyParser from "body-parser";
-import fs from "fs";
 import { config } from "dotenv";
 import session from "express-session";
 config();
-import { getUserID, getUserData } from "./public/js/database.js";
+import { getUserID, getUserData, getClassNames } from "./public/js/database.js";
 import { verifyUser } from "./public/js/login.js";
 import { checkIfUserExists, createUser } from "./public/js/register.js";
 
@@ -35,8 +34,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       secure: !process.env.DEVELOPMENT, // Set secure to true if using HTTPS
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    }, // 30 days in milliseconds
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
+    },
   })
 );
 
@@ -46,6 +45,8 @@ app.use(async (req, res, next) => {
     const userID = req.session.userID;
     const userData = await getUserData(userID);
     req.user = userData;
+    const classes = await getClassNames(userID);
+    req.classes = classes;
   }
   next();
 });
@@ -53,8 +54,9 @@ app.use(async (req, res, next) => {
 //get home page
 app.get("/", function (req, res) {
   console.log(req.session.userID);
-  if (req.session.userID) res.render("home", { user: req.user });
-  else res.redirect("login");
+  if (req.session.userID) {
+    res.render("home", { user: req.user, classes: req.classes });
+  } else res.redirect("login");
 });
 
 //login page
@@ -107,16 +109,20 @@ app.post("/register", async (req, res) => {
       req.session.userID = await getUserID(username);
       res.redirect("/");
     } else {
-      alert(
-        "User already exists! Try logging-in if it is your account. If not, try registering with a different username and email."
-      );
-      res.redirect("/register");
+      // TODO: Remove this from post method to a script that runs at client side.
+      res.send(`
+    <script>
+    alert("User already exists! Try logging-in if it is your account. If not, try registering with a different username and email.");
+    window.location.href = '/register';  // Redirect to a specific page after displaying the alert
+    </script>`);
     }
   } catch (error) {
     console.error(error);
     res.send(`
-    Error while registering. Try again later! <br />
-  <button onclick="window.history.back()">Go Back and Try again</button>`);
+    <script>
+    alert("Error while registering. Try again later!");
+    window.location.href = '/register';  // Redirect to a specific page after displaying the alert
+    </script>`);
   }
 });
 
