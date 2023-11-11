@@ -1,4 +1,4 @@
-import { query } from "./database.js";
+import { query } from "./database-old.js";
 import bcrypt from "bcrypt";
 
 const checkIfUserExists = async (username, email) => {
@@ -24,8 +24,16 @@ const createUser = async ({
   const hashedPassword = await hashPassword(password);
   const currentDate = new Date();
   const queryResult = await query(
-    "INSERT INTO Users (Username, PasswordHash, Email, FirstName, LastName, CreatedAt) VALUES (?, ?, ?, ?, ?, ?)",
-    [username, hashedPassword, email, firstName, lastName, currentDate]
+    "INSERT INTO Users (Username, PasswordHash, Email, FirstName, LastName, CreatedAt, UpdatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [
+      username,
+      hashedPassword,
+      email,
+      firstName,
+      lastName,
+      currentDate,
+      currentDate,
+    ]
   );
   return queryResult;
 };

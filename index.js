@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import { config } from "dotenv";
 import cookieSession from "cookie-session";
 config();
-import { getUserID, getUserData, getClassNames } from "./public/js/database.js";
+import { getUserID, getUserData, getClassNames } from "./public/js/database-old.js";
 import { verifyUser } from "./public/js/login.js";
 import { checkIfUserExists, createUser } from "./public/js/register.js";
 
@@ -45,17 +45,17 @@ app.use(async (req, res, next) => {
     const userID = req.session.userID;
     const userData = await getUserData(userID);
     req.user = userData;
-    const classes = await getClassNames(userID);
-    req.classes = classes;
+    const classNames = await getClassNames(userID);
+    req.classNames = classNames;
   }
   next();
 });
 
 //get home page
 app.get("/", function (req, res) {
-  console.log(req.session.userID);
   if (req.session.userID) {
-    res.render("home", { user: req.user, classes: req.classes });
+    console.log(req.session.userID);
+    res.render("home", { user: req.user, classes: req.classNames });
   } else res.redirect("login");
 });
 
