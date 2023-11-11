@@ -3,7 +3,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { config } from "dotenv";
-import session from "express-session";
+import cookieSession from "cookie-session";
 config();
 import { getUserID, getUserData, getClassNames } from "./public/js/database.js";
 import { verifyUser } from "./public/js/login.js";
@@ -28,7 +28,7 @@ app.set("view engine", "ejs");
 
 // use a session
 app.use(
-  session({
+  cookieSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -78,12 +78,8 @@ app.post("/login", async function (req, res) {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
-      res.send("Error while logging out");
-    } else res.redirect("/login");
-  });
+  req.session = null;
+  res.redirect("/login");
 });
 
 // register page
