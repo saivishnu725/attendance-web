@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "theunconcernedape",
+    "password": "123",
+    "database": "attendanceweb",
+    "host": "localhost",
+    "dialect": "mariadb"
+  },
+  "test": {
+    "username": "theunconcernedape",
+    "password": "123",
+    "database": "attendanceweb",
+    "host": "localhost",
+    "dialect": "mariadb"
+  },
+  "production": {
+    "username": "theunconcernedape",
+    "password": "123",
+    "database": "attendanceweb",
+    "host": "localhost",
+    "dialect": "mariadb"
+  }
+}
