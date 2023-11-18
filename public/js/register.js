@@ -1,41 +1,37 @@
-import { query } from "./database-old.js";
-import bcrypt from "bcrypt";
+const registrationForm = document.getElementById("registrationForm");
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
+const usernameError = document.getElementById("usernameError");
+const emailError = document.getElementById("emailError");
 
-const checkIfUserExists = async (username, email) => {
-  const queryResult = await query(
-    "SELECT * FROM Users WHERE Username = ? OR Email = ?",
-    [username, email]
-  );
-  return queryResult.length > 0;
-};
+// Event listener for username input
+usernameInput.addEventListener("input", () => {
+  const username = emailInput.value.trim();
+  // Clear previous error message
+  if (username.length > 0) {
+    // Make an asynchronous request to check if the email exists
+    fetch(`/check-username?username=${username}`)
+      .then((response) => response.json())
+      .then((username) => {
+        if (username.exists) usernameInput.classList.add("is-invalid");
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+});
 
-const hashPassword = async (password) => {
-  const saltRounds = 10;
-  return bcrypt.hash(password, saltRounds);
-};
+// Event listener for email input
+emailInput.addEventListener("input", () => {
+  const email = emailInput.value.trim();
+  // Clear previous error message
+  emailError.textContent = "";
 
-const createUser = async ({
-  username,
-  email,
-  firstName,
-  lastName,
-  password,
-}) => {
-  const hashedPassword = await hashPassword(password);
-  const currentDate = new Date();
-  const queryResult = await query(
-    "INSERT INTO Users (Username, PasswordHash, Email, FirstName, LastName, CreatedAt, UpdatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [
-      username,
-      hashedPassword,
-      email,
-      firstName,
-      lastName,
-      currentDate,
-      currentDate,
-    ]
-  );
-  return queryResult;
-};
-
-export { checkIfUserExists, createUser };
+  if (email.length > 0) {
+    // Make an asynchronous request to check if the email exists
+    fetch(`/check-email?email=${email}`)
+      .then((response) => response.json())
+      .then((email) => {
+        if (email.exists) emailInput.classList.add("is-invalid");
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+});

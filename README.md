@@ -12,6 +12,7 @@ A website that will store the attendance information of my day to day college, a
 6. Make it work for multiple users _(single user for easy development)_
 7. Use some SQL database _(because it looks like this is a lot of data to be stored for months)_.
 8. Might use AWS // VPS for database and hosting.
+9. The user management part is taking forever and I have to have a working solution by 20 November 2023. So I will leave it here for future-me to figure out.
 
 ## How to run it locally
 

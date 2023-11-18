@@ -1,7 +1,9 @@
-import User from "./User.js";
-import db from "../database.js";
+// Class.js
+import { DataTypes } from "sequelize";
+import { define } from "js/database";
+import User from "js/models/User";
 
-const Class = db.define("Classes", {
+const Class = define("Classes", {
   ClassID: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
