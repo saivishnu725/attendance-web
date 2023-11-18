@@ -5,17 +5,16 @@ import bodyParser from "body-parser";
 import { config } from "dotenv";
 import cookieSession from "cookie-session";
 config();
-import { verifyUser } from "./public/js/login.js";
 import {
+  getUserData,
+  getUserID,
+  getUserName,
+  checkUserExists,
   createUser,
-  getUser,
-  getUserInfo,
-  checkEmailExists,
-  checkUsernameExists,
-} from "./public/data/controllers/userController.js";
-import {} from "./public/data/controllers/classController.js";
-import { getUserData, getClassNames } from "./temp/database-old.js";
-import { auth } from "./public/data/database.js";
+} from "./public/data/user.js";
+import { getClassNames } from "./public/data/class.js";
+
+// express
 const app = express();
 
 //body-parser
@@ -46,64 +45,40 @@ app.use(
   })
 );
 
-// get user data
-app.use(async (req, res, next) => {
-  if (req.session.userID) {
-    const userID = req.session.userID;
-    // const userID = 1;
-    const userData = await getUserData(userID);
-    req.user = userData;
-    const classNames = await getClassNames(userID);
-    req.classNames = classNames;
-  }
-  auth();
-  next();
-});
+//          Routes
 
-// Routes
-
-//home
+// home
 app.get("/", async function (req, res) {
-  const newUser = await createUser(
-    {
-      Username: "user_10",
-      PasswordHash: "123456",
-      Email: "user10@example.com",
-      FirstName: "user",
-      LastName: "10",
-    },
-    "res"
-  );
-  console.log(newUser);
-
+  console.log(req.session.userID);
   if (req.session.userID) {
-    console.log(req.session.userID);
-    res.render("home", { user: req.user, classes: req.classNames });
+    console.log("inside home");
+    const userID = req.session.userID.UserID;
+    console.log("userID: ", userID);
+    const userData = await getUserData(userID);
+    console.log("userData: ", userData);
+    const classNames = await getClassNames(userID);
+    res.render("home", { user: userData, classes: classNames });
   } else res.redirect("login");
 });
 
-//login
+// login
 app.get("/login", function (req, res) {
   if (req.session.userID) res.redirect("/");
   else res.render("login");
 });
 
-// app.post("/login", async function (req, res) {
-//   const { email, password } = req.body;
-//   const userExists = await verifyUser(email, password);
-//   if (userExists) {
-//     req.session.userID = await getUserID(email); // user.UserID => Store UserID in session
-//     res.redirect("/");
-//   } else
-//     res.send(`
-//   <p> The entered Email and Password doesn't exist or is incorrect!! Please enter valid credentials</p> <br />
-//   <button onclick="window.history.back()">Go Back and Try again</button>`);
-// });
-
-// logout
-app.get("/logout", (req, res) => {
-  req.session = null;
-  res.redirect("/login");
+// post -> get data from login
+app.post("/login", async function (req, res) {
+  console.log("req.body", req.body);
+  const { email, password } = req.body;
+  if (await checkUserExists(email)) {
+    console.log("getUserID", await getUserID(email));
+    req.session.userID = await getUserID(email);
+    console.log(req.session.userID);
+    res.redirect("/");
+  } else {
+    res.redirect("/login");
+  }
 });
 
 // register
@@ -112,18 +87,30 @@ app.get("/register", function (req, res) {
   else res.render("register");
 });
 
-// check if user exists or not
-// username
-app.get("/check-username", async (req, res) => {
-  const username = req.query.username;
-  const userExists = await checkUsernameExists(username);
-  res.json({ exists: userExists });
+// post -> get data from register
+app.post("/register", async function (req, res) {
+  console.log("req.body", req.body);
+  const { username, email, password, firstName, lastName } = req.body;
+  console.log(
+    "register info: ",
+    username,
+    email,
+    password,
+    firstName,
+    lastName
+  );
+  console.log(
+    "register done: ",
+    await createUser(username, email, password, firstName, lastName)
+  );
+  res.redirect("/");
 });
-//email
-app.get("/check-email", async (req, res) => {
-  const email = req.query.email;
-  const userExists = await checkEmailExists(email);
-  res.json({ exists: userExists });
+
+// logout
+app.get("/logout", (req, res) => {
+  console.log("logout");
+  req.session = null;
+  res.redirect("/login");
 });
 
 app.listen(3000, function () {
