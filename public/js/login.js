@@ -1,4 +1,4 @@
-import { query } from "../data/database-old.js";
+import { query } from "../../temp/database-old.js";
 import bcrypt from "bcrypt";
 
 const verifyUser = async (email, password) => {

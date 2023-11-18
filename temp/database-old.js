@@ -1,9 +1,9 @@
-import mysql from "mysql";
+import mariadb from "mariadb";
 import { config } from "dotenv";
 config();
 
 //creating a connection pool
-const pool = mysql.createPool({
+const pool = mariadb.createPool({
   connectionLimit: 100,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -23,8 +23,11 @@ const getConnection = (callback) => {
 
 // perform a query on the database and return the result
 const query = (sql, params, callback) => {
+  console.log("querying");
   return new Promise((resolve, reject) => {
+    console.log("promise");
     pool.getConnection((err, connection) => {
+      console.log("connection");
       if (err) reject(err);
       else
         connection.query(sql, params, (error, results) => {
@@ -53,10 +56,12 @@ const getUserName = async (userID) => {
 };
 
 const getUserData = async (userID) => {
+  console.log("getting user data");
   const result = await query(
     "SELECT UserID, Username, Email, FirstName, LastName, UpdatedAt FROM Users WHERE UserID = ?",
     userID
   );
+  console.log("yes", result[0]);
   return result[0];
 };
 

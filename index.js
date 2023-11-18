@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import { config } from "dotenv";
 import cookieSession from "cookie-session";
 config();
-// import { verifyUser } from "./public/js/login.js";
+import { verifyUser } from "./public/js/login.js";
 import {
   createUser,
   getUser,
@@ -14,6 +14,8 @@ import {
   checkUsernameExists,
 } from "./public/data/controllers/userController.js";
 import {} from "./public/data/controllers/classController.js";
+import { getUserData, getClassNames } from "./temp/database-old.js";
+import { auth } from "./public/data/database.js";
 const app = express();
 
 //body-parser
@@ -48,11 +50,13 @@ app.use(
 app.use(async (req, res, next) => {
   if (req.session.userID) {
     const userID = req.session.userID;
+    // const userID = 1;
     const userData = await getUserData(userID);
     req.user = userData;
     const classNames = await getClassNames(userID);
     req.classNames = classNames;
   }
+  auth();
   next();
 });
 
