@@ -54,10 +54,15 @@ export const updateClass = async (classID, status) => {
 };
 
 export const deleteClass = async (classID) => {
-  const conn = await pool.getConnection();
-  const result = await conn.query("DELETE FROM Classes WHERE ClassID = ?", [
-    classID,
-  ]);
-  console.log("inside deleteClass: ", result);
-  return result;
+  try {
+    const conn = await pool.getConnection();
+    const result = await conn.query("DELETE FROM Classes WHERE ClassID = ?", [
+      classID,
+    ]);
+    console.log("inside deleteClass: ", result);
+    return result;
+  } catch (error) {
+    console.error("Error deleting class: ", error);
+    return "no delete";
+  }
 };
