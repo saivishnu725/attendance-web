@@ -1,3 +1,7 @@
+// TODO: Refactor this file
+// TODO: adding this line to remove the error in the console but i have to figure out what is the problem and fix it
+let sidebarCollapseList = [];
+
 function toggleSidebar() {
   document.body.classList.toggle("sidebar-toggled");
   sidebar.classList.toggle("toggled");
