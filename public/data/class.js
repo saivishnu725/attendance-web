@@ -52,3 +52,12 @@ export const updateClass = async (classID, status) => {
   console.log("inside updateClass: ", result);
   return result;
 };
+
+export const deleteClass = async (classID) => {
+  const conn = await pool.getConnection();
+  const result = await conn.query("DELETE FROM Classes WHERE ClassID = ?", [
+    classID,
+  ]);
+  console.log("inside deleteClass: ", result);
+  return result;
+};
