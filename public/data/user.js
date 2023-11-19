@@ -68,3 +68,18 @@ export const createUser = async (
   );
   return queryResult;
 };
+
+// verify user
+export const verifyUser = async (email, password) => {
+  let conn = await pool.getConnection();
+  const result = await conn.query(
+    "SELECT PasswordHash FROM Users WHERE Email = ? OR Username = ?",
+    [email, email]
+  );
+  console.log("verifyUser: ", result);
+  const hashedPassword = result[0].PasswordHash;
+  console.log("hashedPassword: ", hashedPassword);
+  const match = await bcrypt.compare(password, hashedPassword);
+  console.log("match: ", match);
+  return match;
+};
