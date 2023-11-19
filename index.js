@@ -13,7 +13,7 @@ import {
   createUser,
 } from "./public/data/user.js";
 import { getClassData } from "./public/data/class.js";
-import { setAttendance } from "./public/data/attendance.js";
+import { setAttendance, getAttendance } from "./public/data/attendance.js";
 
 // express
 const app = express();
@@ -58,7 +58,12 @@ app.get("/", async function (req, res) {
     const userData = await getUserData(userID);
     console.log("userData: ", userData);
     const classNames = await getClassData(userID);
-    res.render("home", { user: userData, classes: classNames });
+    const attendance = await getAttendance(userID);
+    res.render("home", {
+      user: userData,
+      classes: classNames,
+      attendance: attendance,
+    });
   } else res.redirect("login");
 });
 
