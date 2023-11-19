@@ -164,14 +164,14 @@ app.get("/timetable", async function (req, res) {
 
 app.post("/create-class", async function (req, res) {
   const userID = req.session.userID.UserID;
-  const { className, TotalClassesAttended, TotalClassesTaken, StartDate } =
+  const { className, totalClassAttended, totalClassTaken, StartDate } =
     req.body;
   console.log("create-class: ", req.body);
   await createClass(
     userID,
     className,
-    TotalClassesAttended,
-    TotalClassesTaken,
+    totalClassAttended,
+    totalClassTaken,
     StartDate
   );
   res.redirect("/timetable");
