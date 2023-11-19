@@ -12,7 +12,12 @@ import {
   checkUserExists,
   createUser,
 } from "./public/data/user.js";
-import { getClassData, updateClass } from "./public/data/class.js";
+import {
+  getClassData,
+  updateClass,
+  createClass,
+  deleteClass,
+} from "./public/data/class.js";
 import { setAttendance, getAttendance } from "./public/data/attendance.js";
 
 // express
@@ -147,6 +152,38 @@ app.get("/logout", (req, res) => {
   console.log("logout");
   req.session = null;
   res.redirect("/login");
+});
+
+// timetable
+app.get("/timetable", async function (req, res) {
+  const userID = req.session.userID.UserID;
+  const classNames = await getClassData(userID);
+  console.log("classNames: ", classNames);
+  res.render("timetable", { classes: classNames });
+});
+
+app.post("/create-class", async function (req, res) {
+  const userID = req.session.userID.UserID;
+  const { className, TotalClassesAttended, TotalClassesTaken, StartDate } =
+    req.body;
+  console.log("create-class: ", req.body);
+  await createClass(
+    userID,
+    className,
+    TotalClassesAttended,
+    TotalClassesTaken,
+    StartDate
+  );
+  res.redirect("/timetable");
+});
+
+app.post("/delete-class", async function (req, res) {
+  console.log("delete-class: ", req.body);
+  const { classID } = req.body;
+  console.log("classID: ", classID);
+  let deleteResult = await deleteClass(classID);
+  if (deleteResult == "no delete") console.log(deleteResult);
+  res.redirect("/timetable");
 });
 
 app.listen(3000, function () {

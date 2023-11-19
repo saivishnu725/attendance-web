@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" class="h-100">
+  <%- include('common/head', {title: "Class List | The Attendance Management"})
+  %>
+  <body>
+    <div id="wrapper">
+      <!-- side navbar -->
+      <%- include('common/side-navbar', {active: "timetable"}) %>
+      <div class="d-flex flex-column" id="content-wrapper">
+        <div class="container mt-4">
+          <h1 class="mb-4">Add / Remove Subjects</h1>
+
+          <form id="subjectForm" method="post" action="/create-class">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Class Name"
+                id="classInput"
+                name="className"
+                required
+              />
+            </div>
+            <div class="input-group mb-3">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Total Classes Attended"
+                id="attendedInput"
+                name="totalClassAttended"
+                required
+              />
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Total Classes Conducted"
+                id="totalClassTaken"
+                required
+              />
+            </div>
+            <div class="input-group mb-5">
+              <button class="btn btn-primary" type="submit">Add Class</button>
+            </div>
+          </form>
+          <!-- form to delete class -->
+          <form
+            id="deleteForm"
+            class="visually-hidden"
+            method="POST"
+            action="/delete-class"
+          >
+            <input type="hidden" id="classIDInputBtn" name="classID" value="" />
+          </form>
+
+          <!-- list of all the subjects -->
+          <ul class="list-group" id="subjectList">
+            <p class="pb-3 pt-2">
+              <b>Unfortunately</b>, due to how the atoms works inside a
+              computer, and also due to some fairly reasonable logic, we can't
+              delete a subject that has some attendance recorded. Sorry for the
+              inconvenience. I will think of doing something about it in the
+              future. I know the steps necessary to do this but I would have to
+              redefine the database and I don't want to do that right now.
+            </p>
+            List of Subjects
+            <!-- list from classes -->
+            <% classes.forEach(element => { %>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <%- element.ClassName %>
+              <button
+                class="btn btn-danger btn-sm remove-btn"
+                data-classID="<%= element.ClassID %>"
+              >
+                Remove
+              </button>
+            </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <%- include('common/footer'); %>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+      function removeSubject(element) {
+        const listItem = element.parentElement;
+        listItem.remove();
+      }
+
+      document.querySelectorAll(".remove-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          const classID = this.getAttribute("data-classID");
+          document.getElementById("classIDInputBtn").value = classID; // Set userID to the hidden input value
+          document.getElementById("deleteForm").submit(); // Submit the form
+        });
+      });
+    </script>
+  </body>
+</html>
