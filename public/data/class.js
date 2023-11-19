@@ -19,13 +19,29 @@ export const createClass = async (
 ) => {
   console.log("Creating class");
   if (StartDate == null) StartDate = new Date().toISOString().slice(0, 10);
-  const conn = await pool.getConnection();
-  const result = await conn.query(
-    "INSERT INTO Classes (UserID, ClassName, TotalClassesAttended, TotalClassesTaken, StartDate) VALUES (?, ?, ?, ?, ?)",
-    [userID, className, TotalClassesAttended, TotalClassesTaken, StartDate]
+  console.log(
+    userID,
+    " ",
+    className,
+    " ",
+    TotalClassesAttended,
+    " ",
+    TotalClassesTaken,
+    " ",
+    StartDate
   );
-  console.log("inside createClass: ", result);
-  return result;
+  const conn = await pool.getConnection();
+  try {
+    const result = await conn.query(
+      "INSERT INTO Classes (UserID, ClassName, TotalClassesAttended, TotalClassesTaken, StartDate) VALUES (?, ?, ?, ?, ?)",
+      [userID, className, TotalClassesAttended, TotalClassesTaken, StartDate]
+    );
+    console.log("inside createClass: ", result);
+    return result;
+  } catch (error) {
+    console.error("Error creating class: ", error);
+    return "no create";
+  }
 };
 
 export const updateClass = async (classID, status) => {
