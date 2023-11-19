@@ -12,4 +12,4 @@
 
 ## AttendanceRecords -
 
-<pre> AttendanceID, UserID, ClassID, Date, Status, CreatedAt, SkipReason </pre>
+<pre> AttendanceID, UserID, ClassID, Date, Status, CreatedAt, SkipReason, totalClassAttended,totalClassTaken, Percentage </pre>
