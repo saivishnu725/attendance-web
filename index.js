@@ -6,6 +6,7 @@ import { config } from "dotenv";
 import cookieSession from "cookie-session";
 config();
 import {
+  verifyUser,
   getUserData,
   getUserID,
   checkUserExists,
@@ -71,8 +72,7 @@ app.get("/login", function (req, res) {
 app.post("/login", async function (req, res) {
   console.log("req.body", req.body);
   const { email, password } = req.body;
-  if (await checkUserExists(email)) {
-    // TODO: verifyUser before login
+  if ((await checkUserExists(email)) && (await verifyUser(email, password))) {
     console.log("getUserID", await getUserID(email));
     req.session.userID = await getUserID(email);
     console.log(req.session.userID);
@@ -100,10 +100,10 @@ app.post("/register", async function (req, res) {
     firstName,
     lastName
   );
-  console.log(
-    "register done: ",
-    await createUser(username, email, password, firstName, lastName)
-  );
+  const user = await createUser(username, email, password, firstName, lastName);
+  console.log("register done: ", user);
+  // save user id in session cookie
+  req.session.userID = await getUserID(email);
   res.redirect("/");
 });
 
@@ -142,5 +142,5 @@ app.get("/logout", (req, res) => {
 });
 
 app.listen(3000, function () {
-  console.log("Example app listening on port 3000!");
+  console.log("App listening on port 3000!");
 });
