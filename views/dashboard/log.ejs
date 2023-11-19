@@ -11,7 +11,7 @@
             class="dataTables_length"
             aria-controls="dataTable"
           >
-            <label class="form-label"
+            <label class="form-label visually-hidden"
               >Show&nbsp;<select
                 class="d-inline-block form-select form-select-sm"
               >
@@ -19,7 +19,9 @@
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option></select
-              >&nbsp;</label
+              >&nbsp;</label>
+            <label class="form-label">
+              Showing <%- attendance.length %> entries</label
             >
           </div>
         </div>
@@ -28,6 +30,7 @@
             <label class="form-label"
               ><input
                 type="search"
+                disabled
                 class="form-control form-control-sm"
                 aria-controls="dataTable"
                 placeholder="Search"
@@ -44,38 +47,40 @@
         <table class="table my-0" id="dataTable">
           <thead>
             <tr>
-              <% data.table.columns.forEach(element => { %>
+              <% let columns =["User", "Class","Date", "Status", `Total Class
+              Attended`, "Total Class Taken", "Percentage", "Skip Reason"]; %>
+              <!-- create all the columns -->
+              <% columns.forEach(element => { %>
               <th><%= element %></th>
               <% }) %>
             </tr>
           </thead>
           <tbody>
-            <% users.forEach(user => { %>
+            <% attendance.forEach(row => { %>
             <tr>
-              <td><%- user.FirstName + " " + user.LastName %></td>
-              <td><%- user.ClassName %></td>
-              <td><%- user.Status %></td>
-              <td><%- user.Date %></td>
-              <td><%- 37 %></td>
-              <td><%- 42 %></td>
-              <td>85%</td>
+              <td><%- row.UserName %></td>
+              <td><%- row.ClassName %></td>
+              <td><%- row.Date.toISOString().slice(0, 10) %></td>
+              <td><%- row.Status %></td>
+              <td><%- row.totalClassAttended %></td>
+              <td><%- row.totalClassTaken %></td>
+              <td><%- row.Percentage %>%</td>
+              <td><%- row.SkipReason == null ? '-' : row.SkipReason %></td>
             </tr>
             <% }) %>
           </tbody>
+          <!-- TODO: unhide (remove the 'visually-hidden' class) only if there are more than 5 rows above -->
           <tfoot class="visually-hidden">
-            <!-- unhide (remove the class) it only if there are more than 5 rows above -->
             <tr>
-              <td><strong>Name</strong></td>
-              <td><strong>Position</strong></td>
-              <td><strong>Office</strong></td>
-              <td><strong>Age</strong></td>
-              <td><strong>Start date</strong></td>
-              <td><strong>Salary</strong></td>
+              <!-- create all the columns -->
+              <% columns.forEach(element => { %>
+              <th><%= element %></th>
+              <% }) %>
             </tr>
           </tfoot>
         </table>
       </div>
-      <div class="row">
+      <div class="row visually-hidden">
         <div class="col-md-6 align-self-center">
           <p
             id="dataTable_info-1"
