@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="en" class="h-100">
   <%- include('common/head', {title: "Class List | The Attendance Management"})
   %>
-  <body>
+  <body id="page-top">
     <div id="wrapper">
       <!-- side navbar -->
       <%- include('common/side-navbar', {active: "timetable"}) %>
@@ -79,9 +79,9 @@
             <% }); %>
           </ul>
         </div>
+        <%- include('common/footer'); %>
       </div>
     </div>
-    <%- include('common/footer'); %>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/theme.js"></script>
     <script>
