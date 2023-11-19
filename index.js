@@ -8,11 +8,11 @@ config();
 import {
   getUserData,
   getUserID,
-  getUserName,
   checkUserExists,
   createUser,
 } from "./public/data/user.js";
-import { getClassNames } from "./public/data/class.js";
+import { getClassData } from "./public/data/class.js";
+import { setAttendance } from "./public/data/attendance.js";
 
 // express
 const app = express();
@@ -56,7 +56,7 @@ app.get("/", async function (req, res) {
     console.log("userID: ", userID);
     const userData = await getUserData(userID);
     console.log("userData: ", userData);
-    const classNames = await getClassNames(userID);
+    const classNames = await getClassData(userID);
     res.render("home", { user: userData, classes: classNames });
   } else res.redirect("login");
 });
@@ -72,6 +72,7 @@ app.post("/login", async function (req, res) {
   console.log("req.body", req.body);
   const { email, password } = req.body;
   if (await checkUserExists(email)) {
+    // TODO: verifyUser before login
     console.log("getUserID", await getUserID(email));
     req.session.userID = await getUserID(email);
     console.log(req.session.userID);
@@ -103,6 +104,22 @@ app.post("/register", async function (req, res) {
     "register done: ",
     await createUser(username, email, password, firstName, lastName)
   );
+  res.redirect("/");
+});
+
+// post -> get form input for classNames and process it
+app.post("/attendance-form", async function (req, res) {
+  const checked = [];
+  for (const key in req.body) {
+    if (req.body[key] === "on") checked.push(key);
+  }
+  console.log("Checked checkboxes: ", checked);
+  const userID = req.session.userID.UserID;
+  for (let item in checked) {
+    console.log("item: ", item);
+    let created = await setAttendance(checked[item], userID);
+    console.log(created);
+  }
   res.redirect("/");
 });
 
