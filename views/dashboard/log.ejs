@@ -19,7 +19,8 @@
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option></select
-              >&nbsp;</label>
+              >&nbsp;</label
+            >
             <label class="form-label">
               Showing <%- attendance.length %> entries</label
             >
@@ -47,8 +48,9 @@
         <table class="table my-0" id="dataTable">
           <thead>
             <tr>
-              <% let columns =["User", "Class","Date", "Status", `Total Class
-              Attended`, "Total Class Taken", "Percentage", "Skip Reason"]; %>
+              <% let columns =["ID", "User", "Class","Date", "Status", `Total
+              Class Attended`, "Total Class Taken", "Percentage", `Skip
+              Reason`]; %>
               <!-- create all the columns -->
               <% columns.forEach(element => { %>
               <th><%= element %></th>
@@ -58,6 +60,8 @@
           <tbody>
             <% attendance.forEach(row => { %>
             <tr>
+              <!-- create all the columns -->
+              <td><%- row.AttendanceID %></td>
               <td><%- row.UserName %></td>
               <td><%- row.ClassName %></td>
               <td><%- row.Date.toISOString().slice(0, 10) %></td>
