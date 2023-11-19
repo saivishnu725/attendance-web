@@ -1,25 +1,37 @@
-# mariadb (opensource fork of mysql)
+# Database
 
-### three tables - Users, Classes, AttendanceLog
-### one view - Attendance
+- `mariadb` (opensource fork of MySQL)
 
-## Users (Table) -
+## tables
 
-<pre> UserID, Username, PasswordHash, Email, FirstName, LastName, CreatedAt, UpdatedAt </pre>
+- _three_ tables - `Users`, `Classes`, `AttendanceLog`
+- _one_ view - `Attendance`
 
-## Classes (Table) -
+### Users (Table) -
 
-<pre> ClassID, ClassName, UserID, TotalClassesAttended, TotalClassesTaken, StartDate, Percentage(auto calculated) </pre>
+```sql
+UserID, Username, PasswordHash, Email, FirstName, LastName, CreatedAt, UpdatedAt
+```
 
-## AttendanceLog (Table) -
+### Classes (Table) -
 
-<pre> AttendanceID, UserID, ClassID, Date, Status, CreatedAt, SkipReason, totalClassAttended,totalClassTaken, Percentage </pre>
+```sql
+ClassID, ClassName, UserID, TotalClassesAttended, TotalClassesTaken, StartDate, Percentage(auto calculated)
+```
 
-## Attendance (View) -
+### AttendanceLog (Table) -
 
-<pre> al.AttendanceID, u.UserID, CONCAT(u.FirstName, ' ', u.LastName) AS UserName, c.ClassName, al.Date, al.Status, al.CreatedAt, al.SkipReason,
- al.totalClassAttended, al.totalClassTaken, al.Percentage
+```sql
+AttendanceID, UserID, ClassID, Date, Status, CreatedAt, SkipReason, totalClassAttended,totalClassTaken, Percentage
+```
+
+### Attendance (View) -
+
+```sql
+ al.AttendanceID, u.UserID, CONCAT(u.FirstName, ' ', u.LastName) AS UserName, c.ClassName, al.Date, al.Status,
+ al.CreatedAt, al.SkipReason, al.totalClassAttended, al.totalClassTaken, al.Percentage
  FROM AttendanceLog al
  JOIN Users u ON al.UserID = u.UserID
  JOIN Classes c ON al.ClassID = c.ClassID
- ORDER BY al.Date DESC; </pre>
+ ORDER BY al.Date DESC
+```
