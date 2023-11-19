@@ -12,7 +12,7 @@ import {
   checkUserExists,
   createUser,
 } from "./public/data/user.js";
-import { getClassData } from "./public/data/class.js";
+import { getClassData, updateClass } from "./public/data/class.js";
 import { setAttendance, getAttendance } from "./public/data/attendance.js";
 
 // express
@@ -135,6 +135,9 @@ app.post("/attendance-form", async function (req, res) {
       skipReason
     );
     console.log(created);
+    // change totalAttended and totalTaken in Classes table
+    let updated = await updateClass(checked[item], status);
+    console.log(updated);
   }
   res.redirect("/");
 });
