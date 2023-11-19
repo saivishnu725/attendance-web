@@ -110,6 +110,12 @@ app.post("/register", async function (req, res) {
 // post -> get form input for classNames and process it
 app.post("/attendance-form", async function (req, res) {
   const checked = [];
+  console.log("attendance body: ", req.body);
+  const status = req.body["status"];
+  const skipReason =
+    req.body["skipReason"] === "" ? null : req.body["skipReason"];
+
+  console.log("attendance status: ", req.body);
   for (const key in req.body) {
     if (req.body[key] === "on") checked.push(key);
   }
@@ -117,7 +123,12 @@ app.post("/attendance-form", async function (req, res) {
   const userID = req.session.userID.UserID;
   for (let item in checked) {
     console.log("item: ", item);
-    let created = await setAttendance(checked[item], userID);
+    let created = await setAttendance(
+      checked[item],
+      userID,
+      status,
+      skipReason
+    );
     console.log(created);
   }
   res.redirect("/");
