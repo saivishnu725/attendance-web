@@ -25,3 +25,12 @@ export const setAttendance = async (classID, userID, status, skipReason) => {
 
   return result;
 };
+
+export const getAttendance = async (userID) => {
+  const conn = await pool.getConnection();
+  const result = await conn.query(`SELECT * FROM Attendance WHERE UserID = ?`, [
+    userID,
+  ]);
+  console.log(result);
+  return result;
+};
