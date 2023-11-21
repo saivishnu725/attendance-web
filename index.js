@@ -156,10 +156,15 @@ app.get("/logout", (req, res) => {
 
 // timetable
 app.get("/timetable", async function (req, res) {
-  const userID = req.session.userID.UserID;
-  const classNames = await getClassData(userID);
-  console.log("classNames: ", classNames);
-  res.render("timetable", { classes: classNames });
+  if (typeof req.session.userID == "undefined") {
+    res.redirect("/");
+  } else {
+    console.log("inside timetable: ", req.session.userID);
+    const userID = req.session.userID.UserID;
+    const classNames = await getClassData(userID);
+    console.log("classNames: ", classNames);
+    res.render("timetable", { classes: classNames });
+  }
 });
 
 app.post("/create-class", async function (req, res) {
