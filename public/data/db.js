@@ -13,27 +13,35 @@ export const pool = mariadb.createPool({
 
 // create a connection using the pool
 const getConnection = (callback) => {
-  pool.getConnection((err, connection) => {
-    if (err) {
-      return callback(err, null);
-    }
-    callback(null, connection);
-  });
+  try {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, connection);
+    });
+  } catch (error) {
+    console.error(`Error getting connection: ${error}`);
+  }
 };
 
 // perform a query on the database and return the result
 const query = (sql, params, callback) => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) reject(err);
-      else
-        connection.query(sql, params, (error, results) => {
-          connection.release();
-          if (error) reject(error);
-          else resolve(results);
-        });
+  try {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) reject(err);
+        else
+          connection.query(sql, params, (error, results) => {
+            connection.release();
+            if (error) reject(error);
+            else resolve(results);
+          });
+      });
     });
-  });
+  } catch (error) {
+    console.error(`Error querying database: ${error}`);
+  }
 };
 
 export { query };
