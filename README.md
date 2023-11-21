@@ -4,7 +4,7 @@ A website that will store the attendance information of my day to day college, a
 
 ## Plan
 
-- [ ] Take the week timetable.
+- [x] Take the week timetable.
 - [ ] Take list of all the subjects.
 - [x] Options to select the attendance information every day.
 - [x] Show the percentage of individual subjects.
@@ -14,6 +14,9 @@ A website that will store the attendance information of my day to day college, a
 - [ ] Might use AWS // VPS for database and hosting.
 - [ ] Dark mode
 - [ ] Ability to delete attendance entries
+- [ ] Profile page
+- [ ] Friends list
+- [ ] Change color of the progress bar based on percentage of attendance
 
 ## Pre-requisites
 
