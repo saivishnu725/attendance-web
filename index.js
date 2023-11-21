@@ -132,7 +132,11 @@ app.post("/attendance-form", async function (req, res) {
   console.log("Checked checkboxes: ", checked);
   const userID = req.session.userID.UserID;
   for (let item in checked) {
+    // change totalAttended and totalTaken in Classes table
+    let updated = await updateClass(checked[item], status);
+    console.log(updated);
     console.log("item: ", item);
+    // create attendance
     let created = await setAttendance(
       checked[item],
       userID,
@@ -140,9 +144,6 @@ app.post("/attendance-form", async function (req, res) {
       skipReason
     );
     console.log(created);
-    // change totalAttended and totalTaken in Classes table
-    let updated = await updateClass(checked[item], status);
-    console.log(updated);
   }
   res.redirect("/");
 });
