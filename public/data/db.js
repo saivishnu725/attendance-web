@@ -26,9 +26,9 @@ const getConnection = (callback) => {
 };
 
 // perform a query on the database and return the result
-const query = (sql, params, callback) => {
+const query = async (sql, params, callback) => {
   try {
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) reject(err);
         else
