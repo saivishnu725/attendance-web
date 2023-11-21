@@ -56,25 +56,7 @@
 
           <!-- list of all the subjects -->
           <ul class="list-group" id="subjectList">
-            <p class="pb-3 pt-2">
-              <b>Unfortunately</b>, due to how the atoms works inside a
-              computer, and also due to some fairly reasonable logic, we can't
-              delete a subject that has some attendance recorded. Sorry for the
-              inconvenience. I will think of doing something about it in the
-              future. I know the steps necessary to do this but I would have to
-              redefine the database and I don't want to do that right now.
-              <br />
-              <b>Also</b>, due to some fairly reasonable logic , prevents us
-              from adding a subject if the number of classes attended is 0. So,
-              please make a note of that. I CAN'T DIVIDE BY ZERO WHILE
-              CALCULATING PERCENTAGE AND SINCE IT IS CALCULATED IN THE SQL SIDE,
-              I HAVE NO TIME TO REDESIGN THE ENTIRE PROJECT/DB TO ACCOMMODATE TO
-              THIS CHANGE. I WILL FIX THIS FOR SURE, BUT NOT NOW. <br />
-              <b>If</b> there are no classes conducted, enter 1 in the total classes
-              conducted as well as attended field. then skip entering the
-              attendance for that class for the first time.
-            </p>
-            List of Subjects
+            <% if(classes.length > 0) { %> List of Subjects <% } %>
             <!-- list from classes -->
             <% classes.forEach(element => { %>
             <li
