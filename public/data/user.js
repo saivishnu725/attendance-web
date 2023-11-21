@@ -27,7 +27,7 @@ export const getUserData = async (userID) => {
   let conn = await pool.getConnection();
   console.log("getting user data: ", userID);
   const result = await conn.query(
-    "SELECT UserID, Username, Email, FirstName, LastName FROM Users WHERE UserID = ?",
+    "SELECT UserID, Username, Email, FirstName, LastName, CreatedAt, UpdatedAt FROM Users WHERE UserID = ?",
     [userID]
   );
   console.log("inside getUserData: ", result);
