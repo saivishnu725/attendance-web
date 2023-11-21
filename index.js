@@ -155,6 +155,20 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
+// profile
+app.get("/profile", async function (req, res) {
+  if (typeof req.session.userID == "undefined") {
+    res.redirect("/");
+  } else {
+    console.log("inside profile: ", req.session.userID);
+    const userID = req.session.userID.UserID;
+    const userData = await getUserData(userID);
+    const classes = await getClassData(userID);
+    console.log("userData: ", userData);
+    res.render("profile", { user: userData, classes: classes });
+  }
+});
+
 // timetable
 app.get("/timetable", async function (req, res) {
   if (typeof req.session.userID == "undefined") {
