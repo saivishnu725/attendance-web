@@ -1,8 +1,9 @@
 import { pool } from "./db.js";
 
 export const getClassData = async (userID) => {
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query(
       "SELECT ClassName, ClassID, TotalClassesAttended, TotalClassesTaken, StartDate, Percentage FROM Classes WHERE UserID = ?",
       userID
@@ -38,8 +39,9 @@ export const createClass = async (
   );
   let Percentage = (TotalClassesAttended / TotalClassesTaken) * 100;
   if (TotalClassesTaken == 0) Percentage = 0;
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query(
       "INSERT INTO Classes (UserID, ClassName, TotalClassesAttended, TotalClassesTaken, StartDate, Percentage) VALUES (?, ?, ?, ?, ?, ?)",
       [
@@ -69,8 +71,9 @@ export const updateClass = async (classID, status) => {
   status -> absent
         taken++
   */
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     let result;
     if (status == "present") {
       result = await conn.query(
@@ -98,8 +101,9 @@ export const updateClass = async (classID, status) => {
 };
 
 export const deleteClass = async (classID) => {
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query("DELETE FROM Classes WHERE ClassID = ?", [
       classID,
     ]);
@@ -115,8 +119,9 @@ export const deleteClass = async (classID) => {
 
 // update Percentage in Classes table
 export const updatePercentage = async function (classID) {
+  let conn;
   try {
-    const conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const data = await conn.query(
       `SELECT TotalClassesAttended, TotalClassesTaken FROM Classes WHERE ClassID = ?`,
       classID

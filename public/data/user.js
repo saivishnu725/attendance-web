@@ -3,8 +3,9 @@ import bcrypt from "bcrypt";
 
 // get userID
 export const getUserID = async (email) => {
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query(
       "SELECT UserID FROM Users WHERE Email = ?",
       [email]
@@ -20,8 +21,9 @@ export const getUserID = async (email) => {
 
 // get userName
 export const getUserName = async (userID) => {
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
 
     const result = await conn.query(
       "SELECT Username FROM Users WHERE UserID = ?",
@@ -37,8 +39,9 @@ export const getUserName = async (userID) => {
 
 // getUserData
 export const getUserData = async (userID) => {
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
     console.log("getting user data: ", userID);
     const result = await conn.query(
       "SELECT UserID, Username, Email, FirstName, LastName, CreatedAt, UpdatedAt FROM Users WHERE UserID = ?",
@@ -55,8 +58,9 @@ export const getUserData = async (userID) => {
 
 // check if user exists using email
 export const checkUserExists = async (email) => {
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
     console.log("checking if user exists");
     const queryResult = await conn.query(
       "SELECT * FROM Users WHERE Username = ? OR Email = ?",
@@ -83,8 +87,9 @@ export const createUser = async (
   lastName
 ) => {
   console.log("creating user");
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const hashedPassword = await hashPassword(password);
     console.log(password, " + ", hashedPassword);
     const currentDate = new Date();
@@ -102,8 +107,9 @@ export const createUser = async (
 
 // verify user
 export const verifyUser = async (email, password) => {
+  let conn;
   try {
-    let conn = await pool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query(
       "SELECT PasswordHash FROM Users WHERE Email = ? OR Username = ?",
       [email, email]
