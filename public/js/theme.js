@@ -40,6 +40,14 @@ function preventContentWrapperScroll(e) {
   }
 }
 
+// script that creates a function that selects the form 'delete-attendance-form' and changes the value of a input named 'attendanceID' to the parameter and then submit the form
+function deleteAttendance(attendanceID) {
+  document
+    .querySelector("#delete-attendance-form input[name='attendanceID']")
+    .setAttribute("value", attendanceID);
+  document.querySelector("#delete-attendance-form").submit();
+}
+
 function scrollToTop() {
   let scrollDistance = window.scrollY;
 

@@ -46,12 +46,22 @@
         role="grid"
         aria-describedby="dataTable_info"
       >
+        <!-- a hidden form that stores a input named 'attendanceID' and the action is '/delete-attendance' -->
+        <form
+          class="visually-hidden"
+          id="delete-attendance-form"
+          action="/delete-attendance"
+          method="POST"
+        >
+          <input type="text" name="attendanceID" value="" />
+        </form>
+        <!-- data table -->
         <table class="table my-0" id="dataTable">
           <thead>
             <tr>
               <% let columns =["ID", "User", "Class","Date", "Status", `Total
               Class Attended`, "Total Class Taken", "Percentage", `Skip Reason`,
-              " "]; %>
+              " Delete (not working atm)"]; %>
               <!-- create all the columns -->
               <% columns.forEach(element => { %>
               <th><%= element %></th>
@@ -72,7 +82,12 @@
               <td><%- row.Percentage %>%</td>
               <td><%- row.SkipReason == null ? '-' : row.SkipReason %></td>
               <td>
-                <button type="button" class="btn btn-danger px-2 py-0">
+                <button
+                  type="button"
+                  disabled
+                  class="btn btn-danger px-2 py-0"
+                  onclick="deleteAttendance(<%- row.AttendanceID %>)"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

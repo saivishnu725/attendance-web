@@ -18,7 +18,11 @@ import {
   createClass,
   deleteClass,
 } from "./public/data/class.js";
-import { setAttendance, getAttendance } from "./public/data/attendance.js";
+import {
+  setAttendance,
+  getAttendance,
+  deleteAttendance,
+} from "./public/data/attendance.js";
 
 // express
 const app = express();
@@ -204,6 +208,15 @@ app.post("/delete-class", async function (req, res) {
   let deleteResult = await deleteClass(classID);
   if (deleteResult == "no delete") console.log(deleteResult);
   res.redirect("/timetable");
+});
+
+app.post("/delete-attendance", async function (req, res) {
+  console.log("delete-attendance: ", req.body);
+  const { attendanceID } = req.body;
+  console.log("attendanceID: ", attendanceID);
+  let deleteResult = await deleteAttendance(attendanceID);
+  if (deleteResult == "no delete") console.log(deleteResult);
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
