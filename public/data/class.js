@@ -11,6 +11,8 @@ export const getClassData = async (userID) => {
     return result;
   } catch (error) {
     console.error("Error getting class data: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -54,6 +56,8 @@ export const createClass = async (
   } catch (error) {
     console.error("Error creating class: ", error);
     return "no create";
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -88,6 +92,8 @@ export const updateClass = async (classID, status) => {
   } catch (error) {
     console.error("Error updating class: ", error);
     return "no update";
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -102,6 +108,8 @@ export const deleteClass = async (classID) => {
   } catch (error) {
     console.error("Error deleting class: ", error);
     return "no delete";
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -124,5 +132,7 @@ export const updatePercentage = async function (classID) {
     console.log(`Rows updated: ${result.changes}`);
   } catch (error) {
     console.error(`Error updating percentage: ${error}`);
+  } finally {
+    if (conn) conn.release();
   }
 };

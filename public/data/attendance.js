@@ -29,6 +29,8 @@ export const setAttendance = async (classID, userID, status, skipReason) => {
     return result;
   } catch (error) {
     console.error(`Error setting attendance: ${error}`);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -43,5 +45,7 @@ export const getAttendance = async (userID) => {
     return result;
   } catch (error) {
     console.error(`Error getting attendance: ${error}`);
+  } finally {
+    if (conn) conn.release();
   }
 };

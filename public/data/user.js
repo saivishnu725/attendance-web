@@ -13,6 +13,8 @@ export const getUserID = async (email) => {
     return result[0];
   } catch (error) {
     console.error("Error getting user ID: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -28,6 +30,8 @@ export const getUserName = async (userID) => {
     return result[0].Username;
   } catch (error) {
     console.error("Error getting user name: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -44,6 +48,8 @@ export const getUserData = async (userID) => {
     return result[0];
   } catch (error) {
     console.error("Error getting user data: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -59,6 +65,8 @@ export const checkUserExists = async (email) => {
     return queryResult.length > 0;
   } catch (error) {
     console.error("Error checking if user exists: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -87,6 +95,8 @@ export const createUser = async (
     return queryResult;
   } catch (error) {
     console.error("Error creating user: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
 
@@ -106,5 +116,7 @@ export const verifyUser = async (email, password) => {
     return match;
   } catch (error) {
     console.error("Error verifying user: ", error);
+  } finally {
+    if (conn) conn.release();
   }
 };
