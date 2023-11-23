@@ -50,8 +50,8 @@
           <thead>
             <tr>
               <% let columns =["ID", "User", "Class","Date", "Status", `Total
-              Class Attended`, "Total Class Taken", "Percentage", `Skip
-              Reason`]; %>
+              Class Attended`, "Total Class Taken", "Percentage", `Skip Reason`,
+              " "]; %>
               <!-- create all the columns -->
               <% columns.forEach(element => { %>
               <th><%= element %></th>
@@ -71,6 +71,22 @@
               <td><%- row.totalClassTaken %></td>
               <td><%- row.Percentage %>%</td>
               <td><%- row.SkipReason == null ? '-' : row.SkipReason %></td>
+              <td>
+                <button type="button" class="btn btn-danger px-2 py-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-x"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M3.854 3.146a.5.5 0 0 1 0 .708L8.293 8l-4.44 4.44a.5.5 0 1 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 .708-.708L8 7.293l4.44-4.44a.5.5 0 1 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.44 4.44a.5.5 0 0 1-.708-.708L7.293 8 2.854 3.854a.5.5 0 0 1 .708-.708z"
+                    />
+                  </svg>
+                </button>
+              </td>
             </tr>
             <% }) %>
           </tbody>
