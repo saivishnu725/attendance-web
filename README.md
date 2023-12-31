@@ -1,5 +1,8 @@
 # attendance-web
 
+## NOTE: the other branch is the latest one. I am yet to merge it with master
+
+
 A website that will store the attendance information of my day to day college, and will display the percentage.
 
 ## Plan
