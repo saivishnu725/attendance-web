@@ -1,3 +1,4 @@
+<% if (attendance.length > 0) { %>
 <div class="col" id="log">
   <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -11,7 +12,7 @@
             class="dataTables_length"
             aria-controls="dataTable"
           >
-            <label class="form-label"
+            <label class="form-label visually-hidden"
               >Show&nbsp;<select
                 class="d-inline-block form-select form-select-sm"
               >
@@ -21,6 +22,9 @@
                 <option value="100">100</option></select
               >&nbsp;</label
             >
+            <label class="form-label">
+              Showing <%- attendance.length %> entries</label
+            >
           </div>
         </div>
         <div class="col-md-6">
@@ -28,6 +32,7 @@
             <label class="form-label"
               ><input
                 type="search"
+                disabled
                 class="form-control form-control-sm"
                 aria-controls="dataTable"
                 placeholder="Search"
@@ -41,41 +46,77 @@
         role="grid"
         aria-describedby="dataTable_info"
       >
+        <!-- a hidden form that stores a input named 'attendanceID' and the action is '/delete-attendance' -->
+        <form
+          class="visually-hidden"
+          id="delete-attendance-form"
+          action="/delete-attendance"
+          method="POST"
+        >
+          <input type="text" name="attendanceID" value="" />
+        </form>
+        <!-- data table -->
         <table class="table my-0" id="dataTable">
           <thead>
             <tr>
-              <% data.table.columns.forEach(element => { %>
+              <% let columns =["ID", "User", "Class","Date", "Status", `Total
+              Class Attended`, "Total Class Taken", "Percentage", `Skip Reason`,
+              " Delete (not working atm)"]; %>
+              <!-- create all the columns -->
+              <% columns.forEach(element => { %>
               <th><%= element %></th>
               <% }) %>
             </tr>
           </thead>
           <tbody>
-            <% users.forEach(user => { %>
+            <% attendance.forEach(row => { %>
             <tr>
-              <td><%- user.FirstName + " " + user.LastName %></td>
-              <td><%- user.ClassName %></td>
-              <td><%- user.Status %></td>
-              <td><%- user.Date %></td>
-              <td><%- 37 %></td>
-              <td><%- 42 %></td>
-              <td>85%</td>
+              <!-- create all the columns -->
+              <td><%- row.AttendanceID %></td>
+              <td><%- row.UserName %></td>
+              <td><%- row.ClassName %></td>
+              <td><%- row.Date.toISOString().slice(0, 10) %></td>
+              <td><%- row.Status %></td>
+              <td><%- row.totalClassAttended %></td>
+              <td><%- row.totalClassTaken %></td>
+              <td><%- row.Percentage %>%</td>
+              <td><%- row.SkipReason == null ? '-' : row.SkipReason %></td>
+              <td>
+                <button
+                  type="button"
+                  disabled
+                  class="btn btn-danger px-2 py-0"
+                  onclick="deleteAttendance(<%- row.AttendanceID %>)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-x"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M3.854 3.146a.5.5 0 0 1 0 .708L8.293 8l-4.44 4.44a.5.5 0 1 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 .708-.708L8 7.293l4.44-4.44a.5.5 0 1 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.44 4.44a.5.5 0 0 1-.708-.708L7.293 8 2.854 3.854a.5.5 0 0 1 .708-.708z"
+                    />
+                  </svg>
+                </button>
+              </td>
             </tr>
             <% }) %>
           </tbody>
+          <!-- TODO: unhide (remove the 'visually-hidden' class) only if there are more than 5 rows above -->
           <tfoot class="visually-hidden">
-            <!-- unhide (remove the class) it only if there are more than 5 rows above -->
             <tr>
-              <td><strong>Name</strong></td>
-              <td><strong>Position</strong></td>
-              <td><strong>Office</strong></td>
-              <td><strong>Age</strong></td>
-              <td><strong>Start date</strong></td>
-              <td><strong>Salary</strong></td>
+              <!-- create all the columns -->
+              <% columns.forEach(element => { %>
+              <th><%= element %></th>
+              <% }) %>
             </tr>
           </tfoot>
         </table>
       </div>
-      <div class="row">
+      <div class="row visually-hidden">
         <div class="col-md-6 align-self-center">
           <p
             id="dataTable_info-1"
@@ -119,6 +160,7 @@
     <ul class="list-group list-group-flush"></ul>
   </div>
 </div>
+<% } %>
 
 <!--
 

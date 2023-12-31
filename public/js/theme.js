@@ -1,3 +1,7 @@
+// TODO: Refactor this file
+// TODO: adding this line to remove the error in the console but i have to figure out what is the problem and fix it
+let sidebarCollapseList = [];
+
 function toggleSidebar() {
   document.body.classList.toggle("sidebar-toggled");
   sidebar.classList.toggle("toggled");
@@ -34,6 +38,14 @@ function preventContentWrapperScroll(e) {
     this.scrollTop += (delta < 0 ? 1 : -1) * 30;
     e.preventDefault();
   }
+}
+
+// script that creates a function that selects the form 'delete-attendance-form' and changes the value of a input named 'attendanceID' to the parameter and then submit the form
+function deleteAttendance(attendanceID) {
+  document
+    .querySelector("#delete-attendance-form input[name='attendanceID']")
+    .setAttribute("value", attendanceID);
+  document.querySelector("#delete-attendance-form").submit();
 }
 
 function scrollToTop() {
