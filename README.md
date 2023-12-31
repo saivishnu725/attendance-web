@@ -1,14 +1,11 @@
 # attendance-web
 
-## NOTE: the other branch is the latest one. I am yet to merge it with master
-
-
-A website that will store the attendance information of my day to day college, and will display the percentage.
+A website that will store the attendance information of my day-to-day college, and will display the percentage.
 
 ## Plan
 
 - [x] Take the week timetable.
-- [ ] Take list of all the subjects.
+- [ ] Take a list of all the subjects.
 - [x] Options to select the attendance information every day.
 - [x] Show the percentage of individual subjects.
 - [ ] Add classes outside the day's schedule.
@@ -19,7 +16,7 @@ A website that will store the attendance information of my day to day college, a
 - [ ] Ability to delete attendance entries
 - [ ] Profile page
 - [ ] Friends list
-- [ ] Change color of the progress bar based on percentage of attendance
+- [ ] Change the color of the progress bar based on the percentage of attendance
 
 ## Pre-requisites
 
@@ -29,7 +26,7 @@ A website that will store the attendance information of my day to day college, a
 
 ## How to run it locally
 
-1. Install mariadb and make sure that a '`attendanceweb`' database is created with the appropriate tables. The SQL command to create the tables are located in the `./design-choices/db-tables` directory.
+1. Install mariadb and ensure a '`attendanceweb`' database is created with the appropriate tables. The SQL command to create the tables are located in the `./design-choices/db-tables` directory.
 
    Tables:
 
@@ -71,7 +68,7 @@ A website that will store the attendance information of my day to day college, a
 
 ## Collaborators
 
-Due to the very limited time and too high requirement, it is highly suggested to help me fulfill this challenge/dream task.
+Due to the minimal time and too high of a requirement, it is highly suggested to help me fulfill this challenge/dream task.
 
 ## License
 
