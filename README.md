@@ -1,5 +1,7 @@
 # attendance-web
 
+## Recently renamed it to _'Presence Check'_
+
 ## NOTE: the other branch is the latest one. I am yet to merge it with master
 
 
