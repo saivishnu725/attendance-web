@@ -1,5 +1,7 @@
 # attendance-web
 
+## Recently renamed to _'Presence Check'_
+
 A website that will store the attendance information of my day-to-day college, and will display the percentage.
 
 ## Plan
